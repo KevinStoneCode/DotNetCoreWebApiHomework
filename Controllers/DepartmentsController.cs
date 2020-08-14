@@ -55,6 +55,7 @@ namespace DotNetCoreWebApiHomework.Controllers
             try
             {
                 var departs = _context.Department.FromSqlInterpolated($"EXECUTE dbo.Department_Update {department.DepartmentId},{department.Name},{department.Budget},{department.StartDate},{department.InstructorId},{department.RowVersion}")
+                .IgnoreQueryFilters()
                 .Select(x => new Department() { RowVersion = x.RowVersion })
                 .ToList();
             }
@@ -83,6 +84,7 @@ namespace DotNetCoreWebApiHomework.Controllers
             // await _context.SaveChangesAsync();
 
             var depart = _context.Department.FromSqlInterpolated($"EXECUTE dbo.Department_Insert {department.Name},{department.Budget},{department.StartDate},{department.InstructorId}")
+                .IgnoreQueryFilters()
                 .Select(x => new Department() { DepartmentId = x.DepartmentId, RowVersion = x.RowVersion })
                 .AsEnumerable()
                 .FirstOrDefault();

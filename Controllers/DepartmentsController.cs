@@ -85,7 +85,7 @@ namespace DotNetCoreWebApiHomework.Controllers
 
             var depart = _context.Department.FromSqlInterpolated($"EXECUTE dbo.Department_Insert {department.Name},{department.Budget},{department.StartDate},{department.InstructorId}")
                 .IgnoreQueryFilters()
-                .Select(x => new Department() { DepartmentId = x.DepartmentId, RowVersion = x.RowVersion })
+                .Select(x => new { x.DepartmentId, x.RowVersion })
                 .AsEnumerable()
                 .FirstOrDefault();
             department.DepartmentId = depart.DepartmentId;
